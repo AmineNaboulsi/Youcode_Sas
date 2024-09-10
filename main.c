@@ -150,7 +150,16 @@ float GetDepartementAvg(Student List_Student[],char name[]){
    else 
       return Avg/=Count_Student;
 }
-
+int GetDepartementCount(Student List_Student[],char name[]){
+    int Count_Student = 0;
+     for (int ji = 0; ji < List_Counter; ji++)
+        {
+             if(strcasecmp(List_Student[ji].Department.NameD , name)==0){
+                  Count_Student++;
+              }
+        }
+      return Count_Student;
+}
 
 void DisplayDepartementAvg(Student List_Student[],Department List_Departement[],int len){
     //Display Table Departement Avg
@@ -170,7 +179,24 @@ void DisplayDepartementAvg(Student List_Student[],Department List_Departement[],
             printf("---------------------------------\n");*/
     }
 }
-
+void DisplayDepartementCount(Student List_Student[],Department List_Departement[],int len){
+    //Display Table Departement Avg
+    printf("\n---------------------------------\n");
+    printf("%-2s %-15s %-20s %-2s\n","|","Departement","Number","|") ;
+    printf("---------------------------------\n");  
+    for (size_t i = 0; i < len; i++)
+    {
+            float avg = 0;
+             
+            printf("%-2s %-15s %d %-2s\n","|",
+                        List_Departement[i].NameD,
+                        GetDepartementCount(List_Student , List_Departement[i].NameD),
+                        "|") ;
+            printf("---------------------------------\n");
+            /*printf("id :%d var :%s note : %f",List_Student[i].Department.IdDep,List_Student[i].Department.NameD,List_Student[i].Note );
+            printf("---------------------------------\n");*/
+    }
+}
 
 void Fill_Department(Department List_Department[]) {
     // Fill Data
@@ -226,9 +252,10 @@ int main(){
         printf("%-5s %-60s \n","","3. Delete student");
         printf("%-5s %-60s \n","","4. View student details");
         printf("%-5s %-60s \n","","5. General average");
-        printf("%-5s %-60s \n","","6. Search on student");
-        printf("%-5s %-60s \n","","7. Sort student");
-        printf("%-5s %-60s \n","","7. Exit");
+        printf("%-5s %-60s \n","","6. View Statistics");
+        printf("%-5s %-60s \n","","7. Search on student");
+        printf("%-5s %-60s \n","","8. Sort student");
+        printf("%-5s %-60s \n","","9. Exit");
         printf("%-70s \n","_______________________________________________________________");
         printf("Choose : ");
         scanf("%d",&Picked_Option);
@@ -242,6 +269,27 @@ int main(){
         case 5:
             DisplayDepartementAvg(List_Student ,List_Department,sizeof(List_Department) / sizeof(List_Department[0]));
             break;
+        case 6:
+            HELL:
+            int Option_Statictics =0 ; 
+            printf("Statistics------------------------------------------\n");
+            printf("\t1.Show the total number of students enrolled.\n");
+            printf("\t2.Show the number of students in each department.\n");
+            printf("\t3.Entre average and get all student above it.\n");
+            printf("\t4.Quit Statictics.\n");
+            printf("----------------------------------------------------\nChoose : ");
+            scanf("%d",&Option_Statictics);
+                
+                if(Option_Statictics==1){
+                    printf("----------------------------------------------------\n");
+                    printf("total number of students enrolled %d\n",List_Counter);
+                    printf("----------------------------------------------------\n");
+                    goto HELL ;
+                }else if(Option_Statictics==2){
+                    DisplayDepartementCount(List_Student ,List_Department,sizeof(List_Department) / sizeof(List_Department[0]));
+                    goto HELL ;
+                }            
+                break;
         default:
             break;
         }
