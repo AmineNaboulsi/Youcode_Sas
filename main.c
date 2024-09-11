@@ -56,7 +56,10 @@ int List_Counter = 0;
 //Trier un étudiant par:
 
 void Add_Student(Student List_Student[],Department List_Departement[],int len){
-    
+    if(List_Counter>List_Length){
+        printf("\nThis App version not support memory allocation, try later.\n");
+        return ;
+    }
     //Add Student
     List_Student[List_Counter].Id = Id_Counter++;
     printf("Enter the student first name :");
@@ -103,14 +106,20 @@ void Add_Student(Student List_Student[],Department List_Departement[],int len){
     gestDepartementById(ID_Picked ,&List_Student[List_Counter].Department.NameD,
                 List_Departement,len);
                 
-
+    InvalidNote:
     printf("\nEnter the student generate note :");
     scanf("%f",&List_Student[List_Counter].Note);
+    if(List_Student[List_Counter].Note<0 || List_Student[List_Counter].Note>20){
+        printf("require Note between 0 and 20"); 
+        goto InvalidNote ;
+    }
+        
 
     //Increment List_Counter after adding student
     List_Counter++;
 }
 
+//using pointer i take the dep with postion and fill it  
 void gestDepartementById(int Id , char* Dep,Department List_Departement[],int len){
     for (size_t i = 0; i < len; i++)
     {
@@ -120,16 +129,17 @@ void gestDepartementById(int Id , char* Dep,Department List_Departement[],int le
      }
 }
 
+//Display all student
 void DisplayStudent(Student List_Student[]){
     printf("\n-----------------------------------------------------------------------------------------------------\n");
-    printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n","|","Id","Date","First Name","Last Name","Department","Note","|") ;
+    printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n","|","Id","Date","Last Name","First Name","Department","Note","|") ;
     printf("-----------------------------------------------------------------------------------------------------\n");
     for (int i = 0; i < List_Counter; i++)
     {
         printf("%-2s %-10d %d/%d/%d %-5s %-15s %-20s %-20s %-15.2f %-2s\n",
         "|",List_Student[i].Id,
         List_Student[i].date.year ,List_Student[i].date.month , List_Student[i].date.day,
-        "",List_Student[i].Firstame,List_Student[i].LastName,List_Student[i].Department.NameD,List_Student[i].Note,"|") ;
+        "",List_Student[i].LastName,List_Student[i].Firstame,List_Student[i].Department.NameD,List_Student[i].Note,"|") ;
         printf("-----------------------------------------------------------------------------------------------------\n");
     }
     if(List_Counter==0)
@@ -139,6 +149,7 @@ void DisplayStudent(Student List_Student[]){
     }
 }
 
+//Display avrage for a single Departement and return avg 
 float GetDepartementAvg(Student List_Student[],char name[]){
     int Count_Student = 0;
     float Avg = 0;
@@ -155,6 +166,7 @@ float GetDepartementAvg(Student List_Student[],char name[]){
       return Avg/=Count_Student;
 }
 
+//Display numbrer count student for eatch Departement and return number 
 int GetDepartementCount(Student List_Student[],char name[]){
     int Count_Student = 0;
      for (int ji = 0; ji < List_Counter; ji++)
@@ -166,6 +178,7 @@ int GetDepartementCount(Student List_Student[],char name[]){
       return Count_Student;
 }
 
+//Display average student for eatch Departement
 void DisplayDepartementAvg(Student List_Student[],Department List_Departement[],int len){
     //Display Table Departement Avg
     int Total_Abg = 0;
@@ -230,8 +243,11 @@ void Search_StudentByName(Student List_Student[],char name_Student[]){
    int index_ = -1 ;
     for (int i = 0; i < List_Counter; i++)
     {
-        if(strcasecmp(List_Student[i].LastName , name_Student)==0)
+        if(strcasecmp(List_Student[i].LastName , name_Student)==0){
             index_ = i;
+            break;
+        }
+            
    }
     printf("list : %d\n",index_);
     printf("\n-----------------------------------------------------------------------------------------------------\n");
@@ -330,19 +346,18 @@ int ToLowerCase(char First_C){
         return (int)First_C;
 }
 
-
-int CompareSameChar(char* str1, char* str2) {
+int CompareSameChar(char* fisrtChar, char* secondChar) {
     while (1) {
-        if (ToLowerCase(*str1) != ToLowerCase(*str2)) {
-            return ToLowerCase(*str1) - ToLowerCase(*str2);
+        if (ToLowerCase(*fisrtChar) != ToLowerCase(*secondChar)) {
+            return ToLowerCase(*fisrtChar) - ToLowerCase(*secondChar);
         }
-        str1++;
-        str2++;
+        fisrtChar++;
+        secondChar++;
     }
-    return ToLowerCase(*str1) - ToLowerCase(*str2);
+    return ToLowerCase(*fisrtChar) - ToLowerCase(*secondChar);
 }
 
-//Sort Stident 
+//Sort Student 
 void SortACS(Student List_Student[]) {
     for (size_t i = 0; i < List_Counter - 1; i++) {
         for (size_t p = 0; p < List_Counter - i - 1; p++) {
@@ -360,7 +375,8 @@ void SortACS(Student List_Student[]) {
         }
     }
 
-    // Print the sorted list
+    // sorted list A Z
+    printf("\n-----Sort Filter by ( A , Z )-----\n");
     printf("\n-----------------------------------------------------------------------------------------------------\n");
     printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n", "|", "Id", "Date", "First Name", "Last Name", "Department", "Note", "|");
     printf("-----------------------------------------------------------------------------------------------------\n");
@@ -372,6 +388,32 @@ void SortACS(Student List_Student[]) {
         printf("-----------------------------------------------------------------------------------------------------\n");
     }
 }
+
+void SortACSByAvg(Student List_Student[]) {
+    for (size_t i = 0; i < List_Counter - 1; i++) {
+        for (size_t p = i; p < List_Counter - 1; p++) {
+            if (List_Student[p].Note < List_Student[p+1].Note) {
+                Student small_Note = List_Student[p];
+                List_Student[p] = List_Student[p + 1];
+                List_Student[p + 1] = small_Note;
+            }
+        }
+    }
+
+    // sorted list A Z
+    printf("\n-----Sort Filter from highest to lowest -----\n");
+    printf("\n-----------------------------------------------------------------------------------------------------\n");
+    printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n", "|", "Id", "Date", "First Name", "Last Name", "Department", "Note", "|");
+    printf("-----------------------------------------------------------------------------------------------------\n");
+    for (size_t i = 0; i < List_Counter; i++) {
+        printf("%-2s %-10d %d/%d/%d %-5s %-15s %-20s %-20s %-15.2f %-2s\n",
+               "|", List_Student[i].Id,
+               List_Student[i].date.year, List_Student[i].date.month, List_Student[i].date.day,
+               "", List_Student[i].Firstame, List_Student[i].LastName, List_Student[i].Department.NameD, List_Student[i].Note, "|");
+        printf("-----------------------------------------------------------------------------------------------------\n");
+    }
+}
+
 
 int main(){
     //Option picked
@@ -513,7 +555,28 @@ int main(){
             }
             break;
         case 8:
-            SortACS(List_Student);
+            BACK_TO_MENU_Sort:
+            int Option_Sort =0 ; 
+            printf("Sort------------------------------------------\n");
+            printf("\t1.Alphabetical sorting of students by name (A to Z). \n");
+            printf("\t2.Sorting of students by general average, from highest to lowest or vice versa..\n");
+            printf("\t3.Sorting of students by their success status (those with an average greater than or equal to 10/20).\n");
+            printf("\t4.Quit Statictics.\n");
+            printf("----------------------------------------------------\nChoose : ");
+            scanf("%d",&Option_Sort);
+            if(Option_Sort==1){
+                SortACS(List_Student);
+                goto BACK_TO_MENU_Sort;
+            }else if(Option_Sort==2){
+                SortACSByAvg(List_Student);
+                goto BACK_TO_MENU_Sort;
+            }
+            else if(Option_Sort==3){
+                goto BACK_TO_MENU_Sort;
+            }
+            else if(Option_Sort==4)
+                break;
+            else goto BACK_TO_MENU_Sort;
             break;
         default:
             break;

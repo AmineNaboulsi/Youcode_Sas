@@ -12,31 +12,40 @@ L’application comporte un menu principal qui permet de :
 
 L’application comporte un menu principal qui permet de :
 
-- Ajouter un étudiant ✅
-    -
-    Add_Student(Student List_Student[],Department List_Departement[],int len)
-    check_Day_Validation(int day)
-    check_Month_Validation(int month)
-    ccheck_Year_Validation(int year)
-    gestDepartementById(int Id , char* Dep,Department List_Departement[],int len)
+- Ajouter un étudiant 
+    
+    #### Option 1 : Add_Student(Student List_Student[],Department List_Departement[],int len) ✅
+    #### Option 2 : check_Day_Validation(int day) ✅ 
+    #### Option 3 : check_Month_Validation(int month) ✅
+    #### Option 4 : check_Year_Validation(int year) ✅
+    #### Option 5 : gestDepartementById(int Id , char* Dep,Department  List_Departement[],int len) ✅
 
 - Modifier ou supprimer un étudiant ⭕
     -
     not yet
-- Afficher les détails d'un étudiant ✅
-    -
-    DisplayStudent(Student List_Student[])
-- Calculer la moyenne générale ✅
-    -
-    DisplayDepartementAvg(Student List_Student[],Department List_Departement[],int len)
-    GetDepartementAvg(Student List_Student[],char name[])
-- Statistiques ✅
-    -
-    include on main
-- Rechercher un étudiant ✅
-    -
-    Search_StudentByName(Student List_Student[],char name_Student[])
-    Gest_StudentByDepartement(Student List_Student[],int Id_Dep[])
-- Trier un étudiant ⭕
-    -
-    not yet
+- Afficher les détails d'un étudiant 
+    
+    #### DisplayStudent(Student List_Student[]) ✅
+- Calculer la moyenne générale 
+    
+    #### DisplayDepartementAvg(Student List_Student[],Department List_Departement[],int len) ✅
+    #### GetDepartementAvg(Student List_Student[],char name[]) ✅
+- Statistiques 
+    
+    #### Option 1. include on main ✅
+    #### Option 2. DisplayDepartementCount(Student List_Student[],Department List_Departement[],int len) ✅
+    #### Option 3. include on main ✅
+    #### Option 4. not yet ⭕
+    #### Option 5. not yet ⭕
+- Rechercher un étudiant 
+    
+    #### Option 1 : Search_StudentByName(Student List_Student[],char name_Student[])
+    #### Option 2 : Gest_StudentByDepartement(Student List_Student[],int Id_Dep[])
+- Trier un étudiant 
+    
+    #### Option 1.SortACS(Student List_Student[]) ✅
+    #### Option 2.SortACSByAvg(Student List_Student[]) ✅
+    #### Option 3. not yet ⭕
+
+
+    
