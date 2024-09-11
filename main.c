@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
+
 #define List_Length 200
 
 typedef struct{
@@ -67,27 +68,37 @@ void Add_Student(Student List_Student[],Department List_Departement[],int len){
     printf("\tYear : ");
     scanf("%d",&List_Student[List_Counter].date.year);
     if(check_Year_Validation(List_Student[List_Counter].date.year)==0)
+    {
+        printf("\t( Invalid Year format *) \n");
         goto InvalidYear;
+    }
+        
 
     //Month validation
     InvalidMonth:
-    printf("\tMounth : ");
+    printf("\tMonth : ");
     scanf("%d",&List_Student[List_Counter].date.month);
     if(check_Month_Validation(List_Student[List_Counter].date.month)==0)
+    {
+        printf("\t( Invalid month format *) \n");
         goto InvalidMonth;
+    }
 
     //Day validation
     InvalidDay:
     printf("\tDay : ");
     scanf("%d",&List_Student[List_Counter].date.day);
     if(check_Day_Validation(List_Student[List_Counter].date.day)==0)
+     {
+        printf("\t( Invalid day format *)\n");
         goto InvalidDay;
+    }  
     
     //Departement
     int ID_Picked = -1;
     printf("\nEnter the student Department :\n");
     printf("\t 0-Adding new Departement.\n");
-    for (size_t i = 0; i < List_Dep_Conter; i++)
+    for (int i = 0; i < List_Dep_Conter; i++)
     {
         printf("\t %d-%s.\n",List_Departement[i].IdDep,List_Departement[i].NameD);
     }
@@ -120,16 +131,10 @@ void Add_Student(Student List_Student[],Department List_Departement[],int len){
     }
     //Increment List_Counter after adding student
     List_Counter++;
-}
 
-//Search By ID student and return id if not return -1
-int getStudientById(Student List_Student[] ,int Student_id){
-    for (size_t i = 0; i < List_Counter; i++)
-    {
-        if(List_Student[i].Id == Student_id)
-            return i;
-    }
-    return -1;
+    printf("\n---------------------\n");
+    printf("Added Successfully");
+    printf("\n---------------------\n");
 }
 
 //Update student
@@ -164,18 +169,37 @@ void Update_Student(Student List_Student[],Department List_Departement[]){
         scanf("%s",List_Student[resultat].LastName);
         goto Menu_Update_AfterCheck;
     }else if(OptionMenu_Selected==3){
+
+        InvalidYear:
         printf("\tYear : ");
         scanf("%d",&List_Student[resultat].date.year);
+        if(check_Year_Validation(List_Student[resultat].date.year)==0)
+          {
+                printf("\t( Invalid year format *) \n");
+                goto InvalidYear;
+          }
+        InvalidMonth:
         printf("\tMonth : ");
-        scanf("%d",&List_Student[resultat].date.year);
+        scanf("%d",&List_Student[resultat].date.month);
+        if(check_Month_Validation(List_Student[resultat].date.month)==0)
+        {
+            printf("\t( Invalid month format *) \n");
+            goto InvalidMonth;
+        }
+        InvalidDay:
         printf("\tDay : ");
-        scanf("%d",&List_Student[resultat].date.year);
+        scanf("%d",&List_Student[resultat].date.day);
+        if(check_Day_Validation(List_Student[resultat].date.day)==0)
+        {
+            printf("\t( Invalid day format *)\n");
+            goto InvalidDay;
+        }  
         goto Menu_Update_AfterCheck;
     }
     else if(OptionMenu_Selected==4){
         int ID_Picked = -1;
         printf("\nDepartment :\n");
-        for (size_t i = 0; i < List_Dep_Conter; i++)
+        for (int i = 0; i < List_Dep_Conter; i++)
         {
             printf("\t %d-%s.\n",List_Departement[i].IdDep,List_Departement[i].NameD);
         }
@@ -190,13 +214,46 @@ void Update_Student(Student List_Student[],Department List_Departement[]){
         goto Menu_Update_AfterCheck;        
     }
     else if(OptionMenu_Selected==5){
+        InvalidNote:
         printf("\nnew note : ");
         scanf("%f",&List_Student[resultat].Note);
+        if(List_Student[resultat].Note<0 || List_Student[resultat].Note>20){
+            printf("require Note between 0 and 20"); 
+            goto InvalidNote;
+        }
         goto Menu_Update_AfterCheck;  
     }
     else if(OptionMenu_Selected==6){}
     else 
         goto Menu_Update_AfterCheck; 
+}
+
+//Search By ID student and return id if not return -1
+int getStudientById(Student List_Student[] ,int Student_id){
+    for (size_t i = 0; i < List_Counter; i++)
+    {
+        if(List_Student[i].Id == Student_id)
+            return i;
+    }
+    return -1;
+}
+
+//Delele student 
+void Delete_Student(Student List_Student[], int ID){
+    for (size_t i = 0; i < List_Counter; i++)
+    {
+         if(List_Student[i].Id == ID){
+            for (size_t d = i; d < List_Counter-1; d++)
+            {
+                List_Student[d] = List_Student[d+1];
+            } 
+            List_Counter--;
+            break;   
+        } 
+    }
+    printf("\n---------------------\n");
+    printf("Deleted Successfully");
+    printf("\n---------------------\n");
 }
 
 //using pointer i take the dep with postion and fill it  
@@ -357,7 +414,6 @@ void Gest_StudentByDepartement(Student List_Student[],int Id_Dep[]){
     {
         if(List_Student[index_].Department.IdDep == Id_Dep)
         {
-               
                  printf("%-2s %-10d %d/%d/%d %-5s %-15s %-20s %-20s %-15.2f %-2s\n",
                 "|",List_Student[index_].Id,
                 List_Student[index_].date.year ,List_Student[index_].date.month , List_Student[index_].date.day,
@@ -388,7 +444,7 @@ void filldata(Student List_Student[]){
    strcpy(List_Student[1].Firstame , "hamza"); 
    strcpy(List_Student[1].LastName , "bbb");  
    List_Student[1].Note = 11.1 ;
-   List_Student[1].Department.IdDep = 2;
+   List_Student[1].Department.IdDep = 3;
    List_Student[1].date.day=19;List_Student[1].date.month=9;List_Student[1].date.year=2012;
    strcpy(List_Student[1].Department.NameD , "Informatique");  
 
@@ -396,7 +452,7 @@ void filldata(Student List_Student[]){
    strcpy(List_Student[2].Firstame , "ayman"); 
    strcpy(List_Student[2].LastName , "motawali");  
    List_Student[2].Note = 17.4 ;
-   List_Student[2].Department.IdDep = 2;
+   List_Student[2].Department.IdDep = 3;
    List_Student[2].date.day=4;List_Student[2].date.month=10;List_Student[2].date.year=2001;
    strcpy(List_Student[2].Department.NameD , "Informatique");  
 
@@ -482,7 +538,7 @@ void SortACS(Student List_Student[]) {
     }
 }
 
-//Sort Student by Avarage
+//Sort Student NOTE highest to lowest
 void SortACSByAvg(Student List_Student[]) {
     for (size_t i = 0; i < List_Counter - 1; i++) {
         for (size_t p = i; p < List_Counter - 1; p++) {
@@ -509,6 +565,7 @@ void SortACSByAvg(Student List_Student[]) {
     }
 }
 
+//Sort Student in same time get the top tree 
 void SortAndGet_TopTree(Student List_Student[]) {
     printf("\n-----Sort Filter for top 3 -----\n");
     printf("\n---------------------------------------------------------------------------------------------------------------\n");
@@ -534,15 +591,72 @@ void SortAndGet_TopTree(Student List_Student[]) {
                List_Student[Top_First_Value].date.year, List_Student[Top_First_Value].date.month, List_Student[Top_First_Value].date.day,
                "", List_Student[Top_First_Value].Firstame, List_Student[Top_First_Value].LastName, List_Student[Top_First_Value].Department.NameD, List_Student[Top_First_Value].Note, "|");
             printf("---------------------------------------------------------------------------------------------------------------\n");
-    
-        }
+        }else break;
         Top_First_Value++;
     }
 }
 
-//Main function
-int main(){
-    //Option picked
+//Sort with note highest then 10 
+void SortValidStudents(Student List_Student[]) {
+    printf("\n-----Sort Filter for top 3 -----\n");
+    printf("\n---------------------------------------------------------------------------------------------------------------\n");
+    printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n", "|", "Id", "Date", "First Name", "Last Name", "Department", "Note", "|");
+    printf("---------------------------------------------------------------------------------------------------------------\n");
+    int Count_studantFailed = 0;
+    for (size_t i = 0; i < List_Counter ; i++) {
+        for (size_t p = i; p < List_Counter; p++) {
+            if (List_Student[i].Note < List_Student[p+1].Note) {
+               
+                //swap
+                Student small_Note = List_Student[i];
+                List_Student[i] = List_Student[p + 1];
+                List_Student[p + 1] = small_Note;
+                
+            }
+        }
+        if(List_Student[i].Note < 10){
+            Count_studantFailed++;
+        }
+            
+    }
+    for (size_t i = 0; i < List_Counter -Count_studantFailed ; i++)
+    {
+         printf("%-2s %-10d %d/%d/%d %-5s %-15s %-20s %-20s %-15.2f %-2s\n",
+               "|", List_Student[i].Id,
+               List_Student[i].date.year, List_Student[i].date.month, List_Student[i].date.day,
+               "", List_Student[i].Firstame, List_Student[i].LastName, List_Student[i].Department.NameD, List_Student[i].Note, "|");
+            printf("---------------------------------------------------------------------------------------------------------------\n");
+        
+    }
+    
+}
+
+//display eatch departement with number of note bigger then 10
+void DisplayDepartementByAvgHight(Student List_Student[],Department List_Departement[]){
+    printf("\n---------------------------------\n");
+    printf("%-2s %-15s %-10s %-2s\n","|","Departement","Number > 10","|") ;
+    printf("---------------------------------\n");  
+    int Count_OnDep = 0 ;
+    for (size_t i = 0; i < List_Dep_Conter; i++)
+    {       Count_OnDep = 0;
+            float avg = 0;
+            for (size_t r = 0;  r < List_Counter;  r++)
+            {
+                if(List_Student[r].Department.IdDep == List_Departement[i].IdDep
+                    && List_Student[r].Note > 10)
+                    Count_OnDep++;
+            }
+            printf("%-2s %-15s %10d %-2s\n","|",
+                        List_Departement[i].NameD,
+                        Count_OnDep,
+                        "|") ;
+                printf("---------------------------------\n");
+            
+    }
+}
+
+void MainList_Options(){
+     //Option picked
     int Picked_Option ;
     //Student List
     Student List_Student[List_Length];
@@ -576,7 +690,16 @@ int main(){
             Update_Student(List_Student,List_Department);
             break;
         case 3:
-            printf("\nNot read yet\n");
+            int ID ;
+            printf("Before going to delete student let me have the number of the student .\n");
+            printf("Choose Id :");
+            scanf("%d",&ID);
+            int resultat = getStudientById(List_Student , ID);
+            if(resultat==-1){
+                printf("-----------------\nInvalid ID\n-----------------");
+                break;
+            }
+            Delete_Student(List_Student ,ID);
             break;
         case 4:
             DisplayStudent(List_Student);
@@ -635,7 +758,7 @@ int main(){
                     goto HELL ;
                 }  
                 else if(Option_Statictics==5) {
-                    printf("\nNot read yet\n");
+                    DisplayDepartementByAvgHight(List_Student , List_Department);
                     goto HELL ;
                 } 
                 else if(Option_Statictics==6) 
@@ -661,7 +784,7 @@ int main(){
 
             }else if(Option_Search==2){
                 int ID_Picked = -1;
-                int len_Dep = sizeof(List_Department) / sizeof(List_Department[0]); 
+                //int len_Dep = sizeof(List_Department) / sizeof(List_Department[0]); 
                 printf("\nDepartment :\n");
                 for (size_t i = 0; i < List_Dep_Conter ; i++)
                 {
@@ -670,7 +793,7 @@ int main(){
                 InvalidDep:
                 printf("choose : ");
                 scanf("%d",&ID_Picked);
-                if(ID_Picked<=0 || len_Dep<ID_Picked){
+                if(ID_Picked<=0 || List_Dep_Conter<ID_Picked){
                     printf("\n---------------\n");
                     printf("\nInvalid number\n");
                     printf("\n---------------\n");
@@ -698,6 +821,7 @@ int main(){
                 goto BACK_TO_MENU_Sort;
             }
             else if(Option_Sort==3){
+                SortValidStudents(List_Student);
                 goto BACK_TO_MENU_Sort;
             }
             else if(Option_Sort==4)
@@ -712,5 +836,13 @@ int main(){
     printf("Good Bye");
     printf("\n---------------\n");
 
+}
+
+
+//Main function
+int main(){
+    
+    MainList_Options();
+    
     return 0 ;
 }

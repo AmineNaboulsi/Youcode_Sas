@@ -22,7 +22,7 @@ L’application comporte un menu principal qui permet de :
 
 - Modifier ou supprimer un étudiant 
     #### Option 1. Update ✅
-    #### Option 2. Delete ⭕
+    #### Option 2. Delete ✅
 - Afficher les détails d'un étudiant 
     
     #### DisplayStudent(Student List_Student[]) ✅
@@ -35,8 +35,8 @@ L’application comporte un menu principal qui permet de :
     #### Option 1. include on main ✅
     #### Option 2. DisplayDepartementCount(Student List_Student[],Department List_Departement[],int len) ✅
     #### Option 3. include on main ✅
-    #### Option 4. not yet ⭕
-    #### Option 5. not yet ⭕
+    #### Option 4.  ✅
+    #### Option 5. n✅
 - Rechercher un étudiant 
     
     #### Option 1 : Search_StudentByName(Student List_Student[],char name_Student[])
@@ -45,7 +45,7 @@ L’application comporte un menu principal qui permet de :
     
     #### Option 1.SortACS(Student List_Student[]) ✅
     #### Option 2.SortACSByAvg(Student List_Student[]) ✅
-    #### Option 3. not yet ⭕
+    #### Option 3.  ✅
 
 
     
