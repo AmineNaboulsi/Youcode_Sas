@@ -166,21 +166,31 @@ int GetDepartementCount(Student List_Student[],char name[]){
 
 void DisplayDepartementAvg(Student List_Student[],Department List_Departement[],int len){
     //Display Table Departement Avg
+    int Total_Abg = 0;
+    float Note = 0.0;
     printf("\n---------------------------------\n");
     printf("%-2s %-15s %-20s %-2s\n","|","Departement","Avg","|") ;
     printf("---------------------------------\n");  
     for (size_t i = 0; i < len; i++)
     {
-            float avg = 0;
+            float avg = GetDepartementAvg(List_Student , List_Departement[i].NameD);
              
             printf("%-2s %-15s %.2f %-2s\n","|",
                         List_Departement[i].NameD,
-                        GetDepartementAvg(List_Student , List_Departement[i].NameD),
+                        avg,
                         "|") ;
+            
+            if(avg>0){
+                Note+=avg;
+                Total_Abg++;
+            } 
             printf("---------------------------------\n");
             /*printf("id :%d var :%s note : %f",List_Student[i].Department.IdDep,List_Student[i].Department.NameD,List_Student[i].Note );
             printf("---------------------------------\n");*/
     }
+    printf("%-2s %-15s %.2f %-2s\n","|","All",Note/Total_Abg,"|") ;
+    printf("---------------------------------\n");
+            
 }
 void DisplayDepartementCount(Student List_Student[],Department List_Departement[],int len){
     //Display Table Departement Avg
@@ -210,17 +220,18 @@ void Fill_Department(Department List_Department[]) {
     }
 }
 
-void Search_StudentByName(Student List_Student[],char name_Student){
+void Search_StudentByName(Student List_Student[],char name_Student[]){
    int index_ = -1 ;
     for (int i = 0; i < List_Counter; i++)
     {
         if(strcasecmp(List_Student[i].LastName , name_Student)==0)
             index_ = i;
    }
+    printf("list : %d\n",index_);
     printf("\n-----------------------------------------------------------------------------------------------------\n");
     printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n","|","Id","Date","First Name","Last Name","Department","Note","|") ;
     printf("-----------------------------------------------------------------------------------------------------\n");
-    if(List_Counter==-1)
+    if(index_ == -1)
     {
         printf("%-2s %-20s %-41s %-2s\n","|","","Student Not found","|") ;
         printf("--------------------------------------------------------------------------------------------\n\n");
@@ -229,10 +240,35 @@ void Search_StudentByName(Student List_Student[],char name_Student){
               printf("%-2s %-10d %d/%d/%d %-5s %-15s %-20s %-20s %-15.2f %-2s\n",
         "|",List_Student[index_].Id,
         List_Student[index_].date.year ,List_Student[index_].date.month , List_Student[index_].date.day,
-        "",List_Student[index_].Firstame,List_Student[index_].LastName,List_Student[index_].Department.NameD,List_Student[i].Note,"|") ;
+        "",List_Student[index_].Firstame,List_Student[index_].LastName,List_Student[index_].Department.NameD,List_Student[index_].Note,"|") ;
         printf("-----------------------------------------------------------------------------------------------------\n");
     
     }
+}
+
+void Gest_StudentByDepartement(Student List_Student[],int Id_Dep[]){
+    printf("\n-----------------------------------------------------------------------------------------------------\n");
+    printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n","|","Id","Date","First Name","Last Name","Department","Note","|") ;
+    printf("-----------------------------------------------------------------------------------------------------\n");
+    int find_ = -1 ;
+    for (int index_ = 0; index_ < List_Counter; index_++)
+    {
+        if(List_Student[index_].Department.IdDep == Id_Dep)
+        {
+                 printf("%-2s %-10d %d/%d/%d %-5s %-15s %-20s %-20s %-15.2f %-2s\n",
+                "|",List_Student[index_].Id,
+                List_Student[index_].date.year ,List_Student[index_].date.month , List_Student[index_].date.day,
+                "",List_Student[index_].Firstame,List_Student[index_].LastName,List_Student[index_].Department.NameD,List_Student[index_].Note,"|") ;
+                printf("-----------------------------------------------------------------------------------------------------\n");
+            find_ = 1;
+        }
+   }
+    if(find_ != 1)
+    {
+        printf("%-2s %-20s %-41s %-2s\n","|","","Student Not found","|") ;
+        printf("--------------------------------------------------------------------------------------------\n\n");
+    }
+   
 }
 
 void filldata(Student List_Student[]){
@@ -308,6 +344,12 @@ int main(){
         case 1:
             Add_Student(List_Student,List_Department,sizeof(List_Department) / sizeof(List_Department[0]));
             break;
+        case 2:
+            printf("\nNot read yet\n");
+            break;
+        case 3:
+            printf("\nNot read yet\n");
+            break;
         case 4:
             DisplayStudent(List_Student);
             break;
@@ -376,19 +418,41 @@ int main(){
                 char Name_Search[255] ;
                 printf("Name : ");
                 scanf("%s",Name_Search);
-                Search_StudentByName(List_Student , Name_Search);
+                Search_StudentByName(List_Student ,Name_Search);
                 goto BACK_TO_MENU;
 
             }else if(Option_Search==2){
+                int ID_Picked = -1;
+                int len_Dep = sizeof(List_Department) / sizeof(List_Department[0]); 
+                printf("\nDepartment :\n");
+                for (size_t i = 0; i < len_Dep ; i++)
+                {
+                    printf("\t %d-%s.\n",i+1,List_Department[i].NameD);
+                }
+                InvalidDep:
+                printf("choose : ");
+                scanf("%d",&ID_Picked);
+                if(ID_Picked<=0 || len_Dep<ID_Picked){
+                    printf("\n---------------\n");
+                    printf("\nInvalid number\n");
+                    printf("\n---------------\n");
+
+                    goto BACK_TO_MENU;
+                }
+                Gest_StudentByDepartement(List_Student ,ID_Picked);
                 goto BACK_TO_MENU;
             }
+            break;
+        case 8:
+            printf("\nNot read yet\n");
             break;
         default:
             break;
         }
-    }while(Picked_Option!=8);
-   
-    
+    }while(Picked_Option!=9);
+    printf("\n---------------\n");
+    printf("Good Bye");
+    printf("\n---------------\n");
 
     return 0 ;
 }
