@@ -131,6 +131,7 @@ int getStudientById(Student List_Student[] ,int Student_id){
     }
     return -1;
 }
+
 //Update student
 void Update_Student(Student List_Student[],Department List_Departement[]){
     int OptionMenu_Selected = 0;
@@ -141,7 +142,7 @@ void Update_Student(Student List_Student[],Department List_Departement[]){
     scanf("%d",&Student_id);
     int resultat = getStudientById(List_Student ,Student_id);
     if(resultat == -1){
-        printf("\nIncorrect ID\n");
+        printf("---------------------\nIncorrect ID\n---------------------");
         goto Menu_Update;
     }
     Menu_Update_AfterCheck:
@@ -155,26 +156,25 @@ void Update_Student(Student List_Student[],Department List_Departement[]){
     printf("Choose :");
     scanf("%d",&OptionMenu_Selected);
     if(OptionMenu_Selected==1){
-        printf("Entre new fist name");
+        printf("Entre new fist name : ");
         scanf("%s",List_Student[resultat].Firstame);
         goto Menu_Update_AfterCheck;
     }else if(OptionMenu_Selected==2){
-        printf("Entre new last name");
+        printf("Entre new last name : ");
         scanf("%s",List_Student[resultat].LastName);
         goto Menu_Update_AfterCheck;
     }else if(OptionMenu_Selected==3){
         printf("\tYear : ");
-        scanf("%d",List_Student[resultat].date.year);
+        scanf("%d",&List_Student[resultat].date.year);
         printf("\tMonth : ");
-        scanf("%d",List_Student[resultat].date.year);
+        scanf("%d",&List_Student[resultat].date.year);
         printf("\tDay : ");
-        scanf("%d",List_Student[resultat].date.year);
+        scanf("%d",&List_Student[resultat].date.year);
         goto Menu_Update_AfterCheck;
     }
     else if(OptionMenu_Selected==4){
         int ID_Picked = -1;
         printf("\nDepartment :\n");
-        printf("\t 0-Adding new Departement.\n");
         for (size_t i = 0; i < List_Dep_Conter; i++)
         {
             printf("\t %d-%s.\n",List_Departement[i].IdDep,List_Departement[i].NameD);
@@ -182,7 +182,7 @@ void Update_Student(Student List_Student[],Department List_Departement[]){
         InvalidDep:
         printf("choose new departelent : ");
         scanf("%d",&ID_Picked);
-        if(ID_Picked<0 || List_Dep_Conter<ID_Picked)
+        if(ID_Picked<=0 || List_Dep_Conter<ID_Picked)
             goto InvalidDep;
         List_Student[resultat].Department.IdDep = ID_Picked;
         gestDepartementById(ID_Picked ,&List_Student[resultat].Department.NameD,
@@ -190,14 +190,15 @@ void Update_Student(Student List_Student[],Department List_Departement[]){
         goto Menu_Update_AfterCheck;        
     }
     else if(OptionMenu_Selected==5){
-        printf("\nNote : ");
-        scanf("%d",List_Student[resultat].Note);
+        printf("\nnew note : ");
+        scanf("%f",&List_Student[resultat].Note);
         goto Menu_Update_AfterCheck;  
     }
     else if(OptionMenu_Selected==6){}
     else 
         goto Menu_Update_AfterCheck; 
 }
+
 //using pointer i take the dep with postion and fill it  
 void gestDepartementById(int Id , char* Dep,Department List_Departement[],int len){
     for (size_t i = 0; i < List_Dep_Conter; i++)
@@ -539,7 +540,7 @@ void SortAndGet_TopTree(Student List_Student[]) {
     }
 }
 
-
+//Main function
 int main(){
     //Option picked
     int Picked_Option ;

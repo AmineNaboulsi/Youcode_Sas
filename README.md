@@ -20,9 +20,9 @@ L’application comporte un menu principal qui permet de :
     #### Option 4 : check_Year_Validation(int year) ✅
     #### Option 5 : gestDepartementById(int Id , char* Dep,Department  List_Departement[],int len) ✅
 
-- Modifier ou supprimer un étudiant ⭕
-    -
-    not yet
+- Modifier ou supprimer un étudiant 
+    #### Option 1. Update ✅
+    #### Option 2. Delete ⭕
 - Afficher les détails d'un étudiant 
     
     #### DisplayStudent(Student List_Student[]) ✅
