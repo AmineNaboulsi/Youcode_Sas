@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define List_Length 200
 
@@ -118,6 +119,7 @@ void gestDepartementById(int Id , char* Dep,Department List_Departement[],int le
         }
      }
 }
+
 void DisplayStudent(Student List_Student[]){
     printf("\n-----------------------------------------------------------------------------------------------------\n");
     printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n","|","Id","Date","First Name","Last Name","Department","Note","|") ;
@@ -137,7 +139,6 @@ void DisplayStudent(Student List_Student[]){
     }
 }
 
-
 float GetDepartementAvg(Student List_Student[],char name[]){
     int Count_Student = 0;
     float Avg = 0;
@@ -153,6 +154,7 @@ float GetDepartementAvg(Student List_Student[],char name[]){
    else 
       return Avg/=Count_Student;
 }
+
 int GetDepartementCount(Student List_Student[],char name[]){
     int Count_Student = 0;
      for (int ji = 0; ji < List_Counter; ji++)
@@ -192,6 +194,8 @@ void DisplayDepartementAvg(Student List_Student[],Department List_Departement[],
     printf("---------------------------------\n");
             
 }
+
+//Display data number for eatch Departement
 void DisplayDepartementCount(Student List_Student[],Department List_Departement[],int len){
     //Display Table Departement Avg
     printf("\n---------------------------------\n");
@@ -210,6 +214,7 @@ void DisplayDepartementCount(Student List_Student[],Department List_Departement[
     }
 }
 
+//Fill Departement Name on list
 void Fill_Department(Department List_Department[]) {
     // Fill Data
     char dep[12][255] = {"Biologie", "Mathematiques", "Informatique", "Chimie", "Physique", "Histoire", "Philosophie", "Litterature", "Gestion", "Economie", "Droit", "Geographie"};
@@ -220,6 +225,7 @@ void Fill_Department(Department List_Department[]) {
     }
 }
 
+//Display student data search by name
 void Search_StudentByName(Student List_Student[],char name_Student[]){
    int index_ = -1 ;
     for (int i = 0; i < List_Counter; i++)
@@ -246,6 +252,7 @@ void Search_StudentByName(Student List_Student[],char name_Student[]){
     }
 }
 
+//Display student data search by departement id
 void Gest_StudentByDepartement(Student List_Student[],int Id_Dep[]){
     printf("\n-----------------------------------------------------------------------------------------------------\n");
     printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n","|","Id","Date","First Name","Last Name","Department","Note","|") ;
@@ -271,18 +278,19 @@ void Gest_StudentByDepartement(Student List_Student[],int Id_Dep[]){
    
 }
 
+//Fill a test data for students
 void filldata(Student List_Student[]){
    List_Student[0].Id = 1;
-   strcpy(List_Student[0].Firstame , "amine"); 
-   strcpy(List_Student[0].LastName , "aaa");  
+   strcpy(List_Student[0].Firstame , "mohamed"); 
+   strcpy(List_Student[0].LastName , "ddd");  
    List_Student[0].Note = 15.6 ;
    List_Student[0].Department.IdDep = 0;
    List_Student[0].date.day=5;List_Student[0].date.month=11;List_Student[0].date.year=2008;
    strcpy(List_Student[0].Department.NameD , "Biologie");   
 
    List_Student[1].Id = 2;
-   strcpy(List_Student[1].Firstame , "mohamed"); 
-   strcpy(List_Student[1].LastName , "yyyy");  
+   strcpy(List_Student[1].Firstame , "hamza"); 
+   strcpy(List_Student[1].LastName , "bbb");  
    List_Student[1].Note = 11.1 ;
    List_Student[1].Department.IdDep = 1;
    List_Student[1].date.day=19;List_Student[1].date.month=9;List_Student[1].date.year=2012;
@@ -290,15 +298,15 @@ void filldata(Student List_Student[]){
 
    List_Student[2].Id = 3;
    strcpy(List_Student[2].Firstame , "ayman"); 
-   strcpy(List_Student[2].LastName , "yyyy");  
+   strcpy(List_Student[2].LastName , "motawali");  
    List_Student[2].Note = 17.4 ;
    List_Student[2].Department.IdDep = 1;
    List_Student[2].date.day=4;List_Student[2].date.month=10;List_Student[2].date.year=2001;
    strcpy(List_Student[2].Department.NameD , "Informatique");  
 
    List_Student[3].Id = 4;
-   strcpy(List_Student[3].Firstame , "3isa"); 
-   strcpy(List_Student[3].LastName , "motawali");  
+   strcpy(List_Student[3].Firstame , "zakaria"); 
+   strcpy(List_Student[3].LastName , "ccc");  
    List_Student[3].Note = 18.5 ;
    List_Student[3].Department.IdDep = 3;
    List_Student[3].date.day=4;List_Student[3].date.month=10;List_Student[3].date.year=2001;
@@ -314,6 +322,57 @@ void filldata(Student List_Student[]){
 
    List_Counter = 5; 
 }
+
+int ToLowerCase(char First_C){
+    if(First_C>=65 && First_C<=90)
+        return (int)First_C + 32 ;
+    else    
+        return (int)First_C;
+}
+
+
+int CompareSameChar(char* str1, char* str2) {
+    while (1) {
+        if (ToLowerCase(*str1) != ToLowerCase(*str2)) {
+            return ToLowerCase(*str1) - ToLowerCase(*str2);
+        }
+        str1++;
+        str2++;
+    }
+    return ToLowerCase(*str1) - ToLowerCase(*str2);
+}
+
+//Sort Stident 
+void SortACS(Student List_Student[]) {
+    for (size_t i = 0; i < List_Counter - 1; i++) {
+        for (size_t p = 0; p < List_Counter - i - 1; p++) {
+            if (CompareSameChar(List_Student[p].LastName , List_Student[p+1].LastName) > 0) {
+                Student temp = List_Student[p];
+                List_Student[p] = List_Student[p + 1];
+                List_Student[p + 1] = temp;
+            }
+            /*if (ToLowerCase(List_Student[p].LastName[0]) > ToLowerCase(List_Student[p + 1].LastName[0])) {
+                Student temp = List_Student[p];
+                List_Student[p] = List_Student[p + 1];
+                List_Student[p + 1] = temp;
+            }*/
+            
+        }
+    }
+
+    // Print the sorted list
+    printf("\n-----------------------------------------------------------------------------------------------------\n");
+    printf("%-2s %-10s %-14s %-15s %-20s %-20s %-15s %-5s\n", "|", "Id", "Date", "First Name", "Last Name", "Department", "Note", "|");
+    printf("-----------------------------------------------------------------------------------------------------\n");
+    for (size_t i = 0; i < List_Counter; i++) {
+        printf("%-2s %-10d %d/%d/%d %-5s %-15s %-20s %-20s %-15.2f %-2s\n",
+               "|", List_Student[i].Id,
+               List_Student[i].date.year, List_Student[i].date.month, List_Student[i].date.day,
+               "", List_Student[i].Firstame, List_Student[i].LastName, List_Student[i].Department.NameD, List_Student[i].Note, "|");
+        printf("-----------------------------------------------------------------------------------------------------\n");
+    }
+}
+
 int main(){
     //Option picked
     int Picked_Option ;
@@ -363,13 +422,15 @@ int main(){
             printf("\t1.Show the total number of students enrolled.\n");
             printf("\t2.Show the number of students in each department.\n");
             printf("\t3.Entre average and get all student above it.\n");
-            printf("\t4.Quit Statictics.\n");
+            printf("\t4.show top 3 hight note in all university.\n");
+            printf("\t5.show number of student get note hight then 10 in eatch dep.\n");
+            printf("\t6.Quit Statictics.\n");
             printf("----------------------------------------------------\nChoose : ");
             scanf("%d",&Option_Statictics);
                 
                 if(Option_Statictics==1){
                     printf("----------------------------------------------------\n");
-                    printf("total number of students enrolled %d\n",List_Counter);
+                    printf("total number of students enrolled : %d\n",List_Counter);
                     printf("----------------------------------------------------\n");
                     goto HELL ;
                 }else if(Option_Statictics==2){
@@ -400,7 +461,15 @@ int main(){
                     }
                     goto HELL ;
                 } 
-                else if(Option_Statictics==4) 
+                else if(Option_Statictics==4){
+                    printf("\nNot read yet\n");
+                    goto HELL ;
+                }  
+                else if(Option_Statictics==5) {
+                    printf("\nNot read yet\n");
+                    goto HELL ;
+                } 
+                else if(Option_Statictics==6) 
                     break;
                 else 
                     goto HELL ;       
@@ -444,7 +513,7 @@ int main(){
             }
             break;
         case 8:
-            printf("\nNot read yet\n");
+            SortACS(List_Student);
             break;
         default:
             break;
